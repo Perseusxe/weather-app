@@ -2,12 +2,16 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { LocationIcon } from "../components/LocationIcon";
+import { HomeIcon } from "../components/HomeIcon";
+import { HeartIcon } from "../components/HeartIcon";
+import { UserIcon } from "../components/UserIcon";
 import { SearchIcon } from "@/components/SearchIcon";
 import { SearchInput } from "@/components/SearchInput";
 
-const API_KEY = "ee316010829b4d2fbdc72448241312";
+const API_KEY = "7da889ccc43a407281f91920241412";
 
 export default function Home() {
+  const [value, setValue] = useState("")
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("Ulaanbaatar");
   const [dayWeather, setDayWeather] = useState({
@@ -15,18 +19,18 @@ export default function Home() {
     condition: "",
   });
   const [date, setDate] = useState("");
- 
+
   const [nightWeather, setNightWeather] = useState({
     temperature: 0,
     condition: "",
   });
- 
+
   const [isClient, setIsClient] = useState(false);
- 
+
   const onChangeText = (event) => {
     setSearch(event.target.value);
   };
- 
+
   const onPressEnter = (e) => {
     if (e.code === "Enter") {
       setCity(search);
@@ -41,33 +45,65 @@ export default function Home() {
     )
       .then((response) => response.json())
       .then((data) => {
-        setDate(data.forecast.forecastday[0].date)
+        setDate(data.forecast.forecastday[0].date);
 
         setDayWeather({
           temperature: data?.forecast?.forecastday[0].day?.maxtemp_c,
-          condition: data?.forecast?.forecastday[0].day?.condition?.text,
+          condition: data?.forecast?.forecastday[0].day?.condition?.text.trim().toLowerCase(),
         });
         setNightWeather({
           temperature: data?.forecast?.forecastday[0].day?.mintemp_c,
-          condition: data?.forecast?.forecastday[0].day?.condition.text,
+          condition: data?.forecast?.forecastday[0].hour[6]?.condition.text.trim().toLowerCase(),
         });
- 
+
         console.log(data.current.temp_c, "---Temperature");
         console.log(data.current.condition.text, "---Condition");
       });
   }, [city]);
- 
 
- 
+  let dayImg = dayWeather.condition?.includes("rain")
+    ? "/sun-Rain.png"
+    : dayWeather.condition?.includes("snow")
+    ? "/sun-Snow.png"
+    : dayWeather.condition?.includes("cloud")
+    ? "/sun-Clouds.png"
+    : dayWeather.condition?.includes("overcast")
+    ? "/sun-Clouds.png"
+    : dayWeather.condition?.includes("wind")
+    ? "/sun-Windy.png"
+    : "/Sun.png";
+
+    let nightImg = nightWeather.condition?.includes("rain")
+    ? "/moon-Rain.png"
+    : nightWeather.condition?.includes("snow")
+    ? "/moon-Snow.png"
+    : nightWeather.condition?.includes("cloud")
+    ? "/moon-clouds.png"
+    : nightWeather.condition?.includes("overcast")
+    ? "/moon-clouds.png"
+    : nightWeather.condition?.includes("wind")
+    ? "/moon-Windy.png"
+    : "/moon.png";
+    
+
   if (!isClient) {
     return <div>Loading...</div>;
   }
   return (
     <div className="w-full h-screen flex">
       <div className="w-1/2 h-screen bg-[#F3F4F6]">
-        <SearchInput search={search }  onChangeText={onChangeText} onPressEnter={onPressEnter} />
+        <SearchInput
+          search={search}
+          onChangeText={onChangeText}
+          onPressEnter={onPressEnter}
+        />
         <div>
-          <div className="w-[200px] h-[200px] m-0 top-[550px] left-[1180px] flex fixed rounded-full bg-[#F3F4F6] z-20"></div>
+          <div className="w-[200px] h-[200px] m-0 top-[550px] left-[1180px] flex fixed rounded-full bg-[#F3F4F6] z-20">
+            <div className="flex items-center ml-[50px]">
+            <img src="left.png" className="w-[50px] h-[100px] mr-[10px]"/>
+            <img src="right.png" className="w-[50px] h-[100px]"/>
+            </div>
+          </div>
           <div className="w-[140px] h-[140px] absolute bg-transparent top-[580px] left-[1210px] border-[1px] border-[#000000] rounded-full opacity-[10%] z-20"></div>
           <div className="w-[340px] h-[340px] absolute bg-transparent top-[480px] left-[1110px] border-[1px] border-[#000000] rounded-full opacity-[10%] z-20"></div>
           <div className="w-[540px] h-[540px] absolute bg-transparent top-[380px] left-[1010px] border-[1px] border-[#000000] rounded-full opacity-[10%] z-20"></div>
@@ -89,8 +125,8 @@ export default function Home() {
               </div>
             </div>
             <div className="flex justify-center mt-[80px]">
-              <Image
-                src="/Sun.png"
+              <img
+                src={dayImg}
                 width={262}
                 height={262}
                 alt=""
@@ -98,9 +134,19 @@ export default function Home() {
               />
             </div>
             <h1 className="text-transparent bg-clip-text bg-gradient-to-b from-[#111827] to-[#a9afbb] text-[144px] font-[800] leading-[197px] flex ml-[50px] mt-[300px]">
-              {dayWeather.temperature}
+              {Math.round(dayWeather.temperature)}°
             </h1>
-            <h1 className="font-[800] text-[24px] leading-[33px] text-[#FF8E27] ml-[50px]">{dayWeather.condition}</h1>
+            <h1 className="font-[800] text-[24px] leading-[33px] text-[#FF8E27] ml-[50px]">
+              {dayWeather.condition}
+            </h1>
+            <div className="flex items-center justify-evenly mt-[50px]">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.92428 12.541L13.9243 4.8743C15.0847 3.76225 16.9153 3.76225 18.0757 4.8743L26.0757 12.541C26.6662 13.1068 27 13.8892 27 14.7069V25C27 26.6569 25.6569 28 24 28H22H19H16H13H10H8C6.34315 28 5 26.6569 5 25V14.7069C5 13.8892 5.33385 13.1068 5.92428 12.541Z" stroke="#111827" strokeWidth="2"/>
+        </svg>
+          <LocationIcon />
+          <HeartIcon />
+          <UserIcon />
+          </div>
           </div>
         </div>
       </div>
@@ -120,12 +166,26 @@ export default function Home() {
             </div>
           </div>
           <div className="flex justify-center mt-[80px]">
-            <Image src="/moon.png" width={262} height={262} alt="" className="absolute"/>
-            </div>
-            <h1 className="text-transparent bg-clip-text bg-gradient-to-b from-[#F9FAFB] to-[#F9FAFB00] text-[144px] font-[800] leading-[197px] flex ml-[50px] mt-[300px]">
-              {nightWeather.temperature}
-            </h1>
-            <h1 className="font-[800] text-[24px] leading-[33px] text-[#777CCE] ml-[50px]">{nightWeather.condition}</h1>
+            <img
+              src={nightImg}
+              width={262}
+              height={262}
+              alt=""
+              className="absolute"
+            />
+          </div>
+          <h1 className="text-transparent bg-clip-text bg-gradient-to-b from-[#F9FAFB] to-[#F9FAFB00] text-[144px] font-[800] leading-[197px] flex ml-[50px] mt-[300px]">
+            {Math.round(nightWeather.temperature)}°
+          </h1>
+          <h1 className="font-[800] text-[24px] leading-[33px] text-[#777CCE] ml-[50px]">
+            {nightWeather.condition}
+          </h1>
+          <div className="flex items-center justify-evenly mt-[50px]">
+          <HomeIcon />
+          <LocationIcon />
+          <HeartIcon />
+          <UserIcon />
+          </div>
         </div>
       </div>
     </div>

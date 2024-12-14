@@ -8,7 +8,7 @@ export const SearchInput = ({search, onChangeText, onPressEnter})=>{
         <input
           type="search"
           placeholder="Search"
-          className="h-full w-[500px] text-black  ml-[20px] text-xl focus:outline-0 "
+          className="h-full w-[650px] text-black  ml-[20px] text-xl focus:outline-0 "
           search={search}
           onChange={onChangeText}
           onKeyDown={onPressEnter}
