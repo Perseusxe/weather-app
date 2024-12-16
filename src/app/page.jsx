@@ -12,7 +12,7 @@ import { Circles } from "@/components/Circles";
 const API_KEY = "7da889ccc43a407281f91920241412";
 
 export default function Home() {
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState("");
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("Ulaanbaatar");
   const [dayWeather, setDayWeather] = useState({
@@ -50,11 +50,15 @@ export default function Home() {
 
         setDayWeather({
           temperature: data?.forecast?.forecastday[0].day?.maxtemp_c,
-          condition: data?.forecast?.forecastday[0].day?.condition?.text.trim().toLowerCase(),
+          condition: data?.forecast?.forecastday[0].day?.condition?.text
+            .trim()
+            .toLowerCase(),
         });
         setNightWeather({
           temperature: data?.forecast?.forecastday[0].day?.mintemp_c,
-          condition: data?.forecast?.forecastday[0].hour[6]?.condition.text.trim().toLowerCase(),
+          condition: data?.forecast?.forecastday[0].hour[6]?.condition.text
+            .trim()
+            .toLowerCase(),
         });
 
         console.log(data.current.temp_c, "---Temperature");
@@ -74,7 +78,7 @@ export default function Home() {
     ? "/sun-Windy.png"
     : "/Sun.png";
 
-    let nightImg = nightWeather.condition?.includes("rain")
+  let nightImg = nightWeather.condition?.includes("rain")
     ? "/moon-Rain.png"
     : nightWeather.condition?.includes("snow")
     ? "/moon-snow.png"
@@ -85,28 +89,28 @@ export default function Home() {
     : nightWeather.condition?.includes("wind")
     ? "/moon-Windy.png"
     : "/moon.png";
-    
 
   if (!isClient) {
     return <div>Loading...</div>;
   }
   return (
     <div className="w-full h-screen flex">
+      <div className="flex items-center justify-center w-full absolute h-full">
+          <div className="w-[200px] h-[200px] m-0 flex fixed rounded-full bg-[#F3F4F6] z-20">
+            <div className="flex items-center ml-[50px]">
+              <img src="left.png" className="w-[50px] h-[100px] mr-[10px]" />
+              <img src="right.png" className="w-[50px] h-[100px]" />
+            </div>
+          </div>
+      </div>
       <div className="w-1/2 h-screen bg-[#F3F4F6]">
         <SearchInput
           search={search}
           onChangeText={onChangeText}
           onPressEnter={onPressEnter}
         />
-        <div>
-          <div className="w-[200px] h-[200px] m-0 top-[550px] left-[1180px] flex fixed rounded-full bg-[#F3F4F6] z-20">
-            <div className="flex items-center ml-[50px]">
-            <img src="left.png" className="w-[50px] h-[100px] mr-[10px]"/>
-            <img src="right.png" className="w-[50px] h-[100px]"/>
-            </div>
-          </div>
-          <Circles />
-        </div>
+
+        <Circles />
         <div className="flex items-center justify-center w-full h-full">
           <div className="h-2/3 w-1/2 bg-[#FFFFFF] rounded-[48px] z-30">
             <div className="flex items-center justify-around">
@@ -138,13 +142,23 @@ export default function Home() {
               {dayWeather.condition}
             </h1>
             <div className="flex items-center justify-evenly mt-[50px]">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5.92428 12.541L13.9243 4.8743C15.0847 3.76225 16.9153 3.76225 18.0757 4.8743L26.0757 12.541C26.6662 13.1068 27 13.8892 27 14.7069V25C27 26.6569 25.6569 28 24 28H22H19H16H13H10H8C6.34315 28 5 26.6569 5 25V14.7069C5 13.8892 5.33385 13.1068 5.92428 12.541Z" stroke="#111827" strokeWidth="2"/>
-        </svg>
-          <LocationIcon />
-          <HeartIcon />
-          <UserIcon />
-          </div>
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5.92428 12.541L13.9243 4.8743C15.0847 3.76225 16.9153 3.76225 18.0757 4.8743L26.0757 12.541C26.6662 13.1068 27 13.8892 27 14.7069V25C27 26.6569 25.6569 28 24 28H22H19H16H13H10H8C6.34315 28 5 26.6569 5 25V14.7069C5 13.8892 5.33385 13.1068 5.92428 12.541Z"
+                  stroke="#111827"
+                  strokeWidth="2"
+                />
+              </svg>
+              <LocationIcon />
+              <HeartIcon />
+              <UserIcon />
+            </div>
           </div>
         </div>
       </div>
@@ -179,10 +193,10 @@ export default function Home() {
             {nightWeather.condition}
           </h1>
           <div className="flex items-center justify-evenly mt-[50px]">
-          <HomeIcon />
-          <LocationIcon />
-          <HeartIcon />
-          <UserIcon />
+            <HomeIcon />
+            <LocationIcon />
+            <HeartIcon />
+            <UserIcon />
           </div>
         </div>
       </div>
