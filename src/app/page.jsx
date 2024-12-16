@@ -77,7 +77,7 @@ export default function Home() {
     let nightImg = nightWeather.condition?.includes("rain")
     ? "/moon-Rain.png"
     : nightWeather.condition?.includes("snow")
-    ? "/moon-Snow.png"
+    ? "/moon-snow.png"
     : nightWeather.condition?.includes("cloud")
     ? "/moon-clouds.png"
     : nightWeather.condition?.includes("overcast")
