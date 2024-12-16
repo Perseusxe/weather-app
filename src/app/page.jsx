@@ -7,6 +7,7 @@ import { HeartIcon } from "../components/HeartIcon";
 import { UserIcon } from "../components/UserIcon";
 import { SearchIcon } from "@/components/SearchIcon";
 import { SearchInput } from "@/components/SearchInput";
+import { Circles } from "@/components/Circles";
 
 const API_KEY = "7da889ccc43a407281f91920241412";
 
@@ -104,10 +105,7 @@ export default function Home() {
             <img src="right.png" className="w-[50px] h-[100px]"/>
             </div>
           </div>
-          <div className="w-[140px] h-[140px] absolute bg-transparent top-[580px] left-[1210px] border-[1px] border-[#000000] rounded-full opacity-[10%] z-20"></div>
-          <div className="w-[340px] h-[340px] absolute bg-transparent top-[480px] left-[1110px] border-[1px] border-[#000000] rounded-full opacity-[10%] z-20"></div>
-          <div className="w-[540px] h-[540px] absolute bg-transparent top-[380px] left-[1010px] border-[1px] border-[#000000] rounded-full opacity-[10%] z-20"></div>
-          <div className="w-[940px] h-[940px] absolute bg-transparent top-[180px] left-[810px] border-[1px] border-[#000000] rounded-full opacity-[10%] z-10"></div>
+          <Circles />
         </div>
         <div className="flex items-center justify-center w-full h-full">
           <div className="h-2/3 w-1/2 bg-[#FFFFFF] rounded-[48px] z-30">
