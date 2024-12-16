@@ -161,6 +161,9 @@ export default function Home() {
         </div>
       </div>
       <div className="w-1/2 h-screen bg-[#0F141E] rounded-3xl flex items-center justify-center relative">
+      <div className="w-[150px] h-[150px] rounded-full absolute left-[870px] top-[1030px] ">
+      <img src="Ellipse22.png"/>
+      </div>
         <div className="h-2/3 w-1/2 rounded-[48px] bg-gradient-to-b from-[#1F2937] to-[#111827BF] z-10">
           <div className="flex items-center justify-around">
             <div>
