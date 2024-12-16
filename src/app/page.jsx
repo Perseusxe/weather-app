@@ -24,7 +24,7 @@ export default function Home() {
     condition: "",
   });
 
-
+  const [isClient, setIsClient] = useState(false);
 
   const onChangeText = (event) => {
     setSearch(event.target.value);
@@ -35,7 +35,9 @@ export default function Home() {
       setCity(search);
     }
   };
-
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   useEffect(() => {
     fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=1&aqi=no&alerts=no`
@@ -86,7 +88,9 @@ export default function Home() {
     ? "/moon-Windy.png"
     : "/moon.png";
 
-
+  if (!isClient) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="w-full h-screen flex">
       <div className="flex items-center justify-center w-full absolute h-full">
