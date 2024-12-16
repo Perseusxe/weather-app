@@ -1,18 +1,16 @@
 "use client";
-import Image from "next/image";
+
 import { useState, useEffect } from "react";
 import { LocationIcon } from "../components/LocationIcon";
 import { HomeIcon } from "../components/HomeIcon";
 import { HeartIcon } from "../components/HeartIcon";
 import { UserIcon } from "../components/UserIcon";
-import { SearchIcon } from "@/components/SearchIcon";
 import { SearchInput } from "@/components/SearchInput";
 import { Circles } from "@/components/Circles";
 
 const API_KEY = "7da889ccc43a407281f91920241412";
 
 export default function Home() {
-  const [value, setValue] = useState("");
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("Ulaanbaatar");
   const [dayWeather, setDayWeather] = useState({
@@ -26,7 +24,7 @@ export default function Home() {
     condition: "",
   });
 
-  const [isClient, setIsClient] = useState(false);
+
 
   const onChangeText = (event) => {
     setSearch(event.target.value);
@@ -37,9 +35,7 @@ export default function Home() {
       setCity(search);
     }
   };
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+
   useEffect(() => {
     fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=1&aqi=no&alerts=no`
@@ -90,9 +86,7 @@ export default function Home() {
     ? "/moon-Windy.png"
     : "/moon.png";
 
-  if (!isClient) {
-    return <div>Loading...</div>;
-  }
+
   return (
     <div className="w-full h-screen flex">
       <div className="flex items-center justify-center w-full absolute h-full">
@@ -115,7 +109,7 @@ export default function Home() {
           <div className="h-2/3 w-1/2 bg-[#FFFFFF] rounded-[48px] z-30">
             <div className="flex items-center justify-around">
               <div>
-                <div className="text-[#111827] font-[500] text-[18px] leading-[25px] mt-[50px]">
+                <div className="text-[#111827] font-[500] text-[112%] leading-[138.88%] mt-[20%]">
                   {date}
                 </div>
                 <div className="text-[#111827] font-[800] text-[48px] leading-[66px] mt-0">
@@ -135,7 +129,7 @@ export default function Home() {
                 className="absolute"
               />
             </div>
-            <h1 className="text-transparent bg-clip-text bg-gradient-to-b from-[#111827] to-[#a9afbb] text-[144px] font-[800] leading-[197px] flex ml-[50px] mt-[300px]">
+            <h1 className="text-transparent bg-clip-text bg-gradient-to-b from-[#111827] to-[#a9afbb] text-[900%] font-[800] leading-[197px] flex ml-[50px] mt-[300px]">
               {Math.round(dayWeather.temperature)}°
             </h1>
             <h1 className="font-[800] text-[24px] leading-[33px] text-[#FF8E27] ml-[50px]">
@@ -166,7 +160,7 @@ export default function Home() {
         <div className="h-2/3 w-1/2 rounded-[48px] bg-gradient-to-b from-[#1F2937] to-[#111827BF] z-10">
           <div className="flex items-center justify-around">
             <div>
-              <div className="text-[#FFFFFF] font-[500] text-[18px] leading-[25px] mt-[50px]">
+            <div className="text-[#FFFFFF] font-[500] text-[112%] leading-[138.88%] mt-[20%]">
                 {date}
               </div>
               <div className="text-[#FFFFFF] font-[800] text-[48px] leading-[66px] mt-0">
@@ -186,7 +180,7 @@ export default function Home() {
               className="absolute"
             />
           </div>
-          <h1 className="text-transparent bg-clip-text bg-gradient-to-b from-[#F9FAFB] to-[#F9FAFB00] text-[144px] font-[800] leading-[197px] flex ml-[50px] mt-[300px]">
+          <h1 className="text-transparent bg-clip-text bg-gradient-to-b from-[#F9FAFB] to-[#F9FAFB00] text-[900%] font-[800] leading-[197px] flex ml-[50px] mt-[300px]">
             {Math.round(nightWeather.temperature)}°
           </h1>
           <h1 className="font-[800] text-[24px] leading-[33px] text-[#777CCE] ml-[50px]">
