@@ -101,7 +101,6 @@ export default function Home() {
           onPressEnter={onPressEnter}
         />
 
-        <Circles />
         <div className="w-[90%] max-w-[500px] bg-white rounded-3xl p-8 shadow-lg">
           <div className="flex justify-between items-center mb-6">
             <div>
