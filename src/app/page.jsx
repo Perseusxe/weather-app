@@ -35,9 +35,11 @@ export default function Home() {
       setCity(search);
     }
   };
+
   useEffect(() => {
     setIsClient(true);
   }, []);
+
   useEffect(() => {
     fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=1&aqi=no&alerts=no`
@@ -47,20 +49,17 @@ export default function Home() {
         setDate(data.forecast.forecastday[0].date);
 
         setDayWeather({
-          temperature: data?.forecast?.forecastday[0].day?.maxtemp_c,
-          condition: data?.forecast?.forecastday[0].day?.condition?.text
+          temperature: data?.forecast?.forecastday[0]?.day?.maxtemp_c,
+          condition: data?.forecast?.forecastday[0]?.day?.condition?.text
             .trim()
             .toLowerCase(),
         });
         setNightWeather({
-          temperature: data?.forecast?.forecastday[0].day?.mintemp_c,
-          condition: data?.forecast?.forecastday[0].hour[6]?.condition.text
+          temperature: data?.forecast?.forecastday[0]?.day?.mintemp_c,
+          condition: data?.forecast?.forecastday[0]?.hour[6]?.condition.text
             .trim()
             .toLowerCase(),
         });
-
-        console.log(data.current.temp_c, "---Temperature");
-        console.log(data.current.condition.text, "---Condition");
       });
   }, [city]);
 
@@ -91,17 +90,11 @@ export default function Home() {
   if (!isClient) {
     return <div>Loading...</div>;
   }
+
   return (
-    <div className="w-full h-screen flex">
-      <div className="flex items-center justify-center w-full absolute h-full">
-          <div className="w-[200px] h-[200px] m-0 flex fixed rounded-full bg-[#F3F4F6] z-20">
-            <div className="flex items-center ml-[50px]">
-              <img src="left.png" className="w-[50px] h-[100px] mr-[10px]" />
-              <img src="right.png" className="w-[50px] h-[100px]" />
-            </div>
-          </div>
-      </div>
-      <div className="w-1/2 h-screen bg-[#F3F4F6]">
+    <div className="w-full h-screen flex flex-col lg:flex-row">
+      {/* Day Weather Section */}
+      <div className="lg:w-1/2 w-full h-full bg-[#F3F4F6] flex flex-col items-center justify-center">
         <SearchInput
           search={search}
           onChangeText={onChangeText}
@@ -109,96 +102,45 @@ export default function Home() {
         />
 
         <Circles />
-        <div className="flex items-center justify-center w-full h-full">
-          <div className="h-2/3 w-1/2 bg-[#FFFFFF] rounded-[48px] z-30">
-            <div className="flex items-center justify-around">
-              <div>
-                <div className="text-[#111827] font-[500] text-[112%] leading-[138.88%] mt-[20%]">
-                  {date}
-                </div>
-                <div className="text-[#111827] font-[800] text-[48px] leading-[66px] mt-0">
-                  {city}
-                </div>
-              </div>
-              <div className="mt-[30px]">
-                <LocationIcon />
-              </div>
+        <div className="w-[90%] max-w-[500px] bg-white rounded-3xl p-8 shadow-lg">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <div className="text-gray-800 font-medium text-lg">{date}</div>
+              <div className="text-gray-800 font-bold text-4xl">{city}</div>
             </div>
-            <div className="flex justify-center mt-[80px]">
-              <img
-                src={dayImg}
-                width={262}
-                height={262}
-                alt=""
-                className="absolute"
-              />
-            </div>
-            <h1 className="text-transparent bg-clip-text bg-gradient-to-b from-[#111827] to-[#a9afbb] text-[900%] font-[800] leading-[197px] flex ml-[50px] mt-[300px]">
-              {Math.round(dayWeather.temperature)}°
-            </h1>
-            <h1 className="font-[800] text-[24px] leading-[33px] text-[#FF8E27] ml-[50px]">
-              {dayWeather.condition}
-            </h1>
-            <div className="flex items-center justify-evenly mt-[50px]">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.92428 12.541L13.9243 4.8743C15.0847 3.76225 16.9153 3.76225 18.0757 4.8743L26.0757 12.541C26.6662 13.1068 27 13.8892 27 14.7069V25C27 26.6569 25.6569 28 24 28H22H19H16H13H10H8C6.34315 28 5 26.6569 5 25V14.7069C5 13.8892 5.33385 13.1068 5.92428 12.541Z"
-                  stroke="#111827"
-                  strokeWidth="2"
-                />
-              </svg>
-              <LocationIcon />
-              <HeartIcon />
-              <UserIcon />
-            </div>
+            <LocationIcon />
           </div>
+          <div className="flex justify-center mb-8">
+            <img src={dayImg} alt="day weather" className="w-64 h-64" />
+          </div>
+          <h1 className="text-6xl font-extrabold text-gray-800 mb-2">
+            {Math.round(dayWeather.temperature)}°
+          </h1>
+          <p className="text-xl font-semibold text-orange-500">
+            {dayWeather.condition}
+          </p>
         </div>
       </div>
-      <div className="w-1/2 h-screen bg-[#0F141E] rounded-3xl flex items-center justify-center relative">
-      <div className="w-[150px] h-[150px] rounded-full absolute left-[870px] top-[1030px] ">
-      <img src="Ellipse22.png"/>
-      </div>
-        <div className="h-2/3 w-1/2 rounded-[48px] bg-gradient-to-b from-[#1F2937] to-[#111827BF] z-10">
-          <div className="flex items-center justify-around">
+
+      {/* Night Weather Section */}
+      <div className="lg:w-1/2 w-full h-full bg-[#0F141E] flex flex-col items-center justify-center">
+        <div className="w-[90%] max-w-[500px] bg-gradient-to-b from-gray-800 to-gray-900 rounded-3xl p-8 shadow-lg">
+          <div className="flex justify-between items-center mb-6">
             <div>
-            <div className="text-[#FFFFFF] font-[500] text-[112%] leading-[138.88%] mt-[20%]">
-                {date}
-              </div>
-              <div className="text-[#FFFFFF] font-[800] text-[48px] leading-[66px] mt-0">
-                {city}
-              </div>
+              <div className="text-white font-medium text-lg">{date}</div>
+              <div className="text-white font-bold text-4xl">{city}</div>
             </div>
-            <div className="mt-[30px]">
-              <LocationIcon />
-            </div>
+            <LocationIcon />
           </div>
-          <div className="flex justify-center mt-[80px]">
-            <img
-              src={nightImg}
-              width={262}
-              height={262}
-              alt=""
-              className="absolute"
-            />
+          <div className="flex justify-center mb-8">
+            <img src={nightImg} alt="night weather" className="w-64 h-64" />
           </div>
-          <h1 className="text-transparent bg-clip-text bg-gradient-to-b from-[#F9FAFB] to-[#F9FAFB00] text-[900%] font-[800] leading-[197px] flex ml-[50px] mt-[300px]">
+          <h1 className="text-6xl font-extrabold text-white mb-2">
             {Math.round(nightWeather.temperature)}°
           </h1>
-          <h1 className="font-[800] text-[24px] leading-[33px] text-[#777CCE] ml-[50px]">
+          <p className="text-xl font-semibold text-indigo-400">
             {nightWeather.condition}
-          </h1>
-          <div className="flex items-center justify-evenly mt-[50px]">
-            <HomeIcon />
-            <LocationIcon />
-            <HeartIcon />
-            <UserIcon />
-          </div>
+          </p>
         </div>
       </div>
     </div>
